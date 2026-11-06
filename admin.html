@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>لوحة مس مريم سراج</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Cairo'}
+body{background:#FFF8F0;padding:12px}
+h1{color:#D46A7E;text-align:center;font-size:20px}
+.tabs{display:flex;gap:6px;margin:12px 0}
+.t{flex:1;padding:10px;border-radius:12px;background:#d3c5c5;border:2px solid #FCE4D8;text-align:center;font-size:10px;font-weight:800;color:#A67C6B}
+.t.on{background:#E8919C;color:#fff;border-color:#1d070a}
+.card{background:#fff;border:2px solid #FADDD8;border-radius:18px;padding:12px;margin:10px 0}
+input,select,textarea{width:100%;padding:10px;border:2px solid #FCE4D8;border-radius:10px;background:#FFF5EF;margin:5px 0;font-size:11px}
+.btn{width:100%;background:#E8919C;color:#fff;border:0;border-radius:10px;padding:10px;font-weight:800;margin-top:6px}
+.item{display:flex;justify-content:space-between;background:#FFFEFB;border:1.5px solid #FADDD8;border-radius:10px;padding:8px;margin:5px 0;font-size:11px}
+.sec{display:none}.sec.on{display:block}
+</style>
+</head>
+<body>
+<h1> لوحه مس مريم سراج</h1>
+<div class="tabs">
+<div class="t on" id="t1" onclick="show(1)">الطالبات</div>
+<div class="t" id="t2" onclick="show(2)">الحصص</div>
+<div class="t" id="t3" onclick="show(3)">النصايح</div>
+</div>
+
+<div class="sec on" id="s1">
+<div class="card">
+<input id="sName" placeholder="اسم الطالبة">
+<select id="sGrade"></select>
+<input id="sCode" placeholder="SHZ-XXXX">
+<button class="btn" onclick="addS()">حفظ الطالب💖</button>
+</div>
+<div class="card"><div id="sList"></div></div>
+</div>
+
+<div class="sec" id="s2">
+<div class="card">
+<input id="cTitle" placeholder="عنوان الحصة">
+<select id="cGrade"></select>
+<input id="cVideo" placeholder="لينك فيديو يوتيوب">
+<input id="cSum" placeholder="لينك شرح (درايف)">
+<input id="cSheet" placeholder="لينك شيت (درايف)">
+<input id="cQuiz" placeholder="لينك واجب (فورم)">
+<button class="btn" onclick="addC()">حفظ الحصة ✨</button>
+</div>
+<div class="card"><div id="cList"></div></div>
+</div>
+
+<div class="sec" id="s3">
+<div class="card">
+<input id="tipT" placeholder="عنوان النصيحة">
+<textarea id="tipD" placeholder="التفاصيل"></textarea>
+<button class="btn" onclick="addT()">حفظ النصيحة</button>
+</div>
+<div class="card"><div id="tList"></div></div>
+</div>
+
+<script>
+let grades=["الصف الأول الإعدادي","الصف الثاني الإعدادي","الصف الثالث الإعدادي","الصف الأول الثانوي","الصف الثاني الثانوي","الصف الثالث الثانوي"];
+sGrade.innerHTML=cGrade.innerHTML=grades.map(g=>`<option>${g}</option>`).join('');
+let DB=JSON.parse(localStorage.getItem('SHZ_DB')||'{"codes":[],"courses":[],"tips":[]}');
+function save(){localStorage.setItem('SHZ_DB',JSON.stringify(DB));render()}
+function show(n){document.querySelectorAll('.sec').forEach(e=>e.classList.remove('on'));document.querySelectorAll('.t').forEach(e=>e.classList.remove('on'));document.getElementById('s'+n).classList.add('on');document.getElementById('t'+n).classList.add('on')}
+function addS(){if(!sName.value||!sCode.value)return alert('كملي');DB.codes.push({name:sName.value,grade:sGrade.value,code:sCode.value.toUpperCase()});sName.value=sCode.value='';save()}
+function addC(){if(!cTitle.value)return alert('العنوان');DB.courses.push({title:cTitle.value,grade:cGrade.value,video:cVideo.value,summary:cSum.value,sheet:cSheet.value,quiz:cQuiz.value});cTitle.value=cVideo.value=cSum.value=cSheet.value=cQuiz.value='';save()}
+function addT(){DB.tips.push({t:tipT.value,d:tipD.value});tipT.value=tipD.value='';save()}
+function render(){
+sList.innerHTML=DB.codes.map((s,i)=>`<div class="item"><b>${s.name} - ${s.code}</b><span onclick="DB.codes.splice(${i},1);save()" style="color:#E8919C">حذف</span></div>`).join('');
+cList.innerHTML=DB.courses.map((c,i)=>`<div class="item"><b>${c.title}</b><span onclick="DB.courses.splice(${i},1);save()" style="color:#E8919C">حذف</span></div>`).join('');
+tList.innerHTML=DB.tips.map((x,i)=>`<div class="item"><b>${x.t}</b><span onclick="DB.tips.splice(${i},1);save()" style="color:#E8919C">حذف</span></div>`).join('');
+}render();
+</script>
+</body>
+</html>

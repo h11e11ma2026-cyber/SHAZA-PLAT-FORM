@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>نصايح</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;800&display=swap" rel="stylesheet">
+<style>*{box-sizing:border-box;margin:0;padding:0;font-family:'Cairo'}body{background:#FFF8F0;padding:14px}.card{background:#FFFEFB;border:2px solid #FADDD8;border-radius:18px;padding:14px;margin:10px auto;max-width:500px}.tip{background:#fff;border:1.5px solid #FCE4D8;border-radius:14px;padding:12px;margin:8px 0}</style></head>
+<body>
+<div class="card" style="display:flex;justify-content:space-between"><b style="color:#D46A7E">💡 نصايح قلم شذى</b><a href="dashboard.html" style="text-decoration:none">⬅️ رجوع</a></div>
+<div class="card" id="tipsList"></div>
+<script>
+let DB=JSON.parse(localStorage.getItem('SHZ_DB')||'{"tips":[]}');
+if(!DB.tips || DB.tips.length===0){
+DB.tips=[
+{t:"ذاكر 25 دقيقة وريّح 5",d:"طريقة البومودورو هتخليك مركز أكتر من 3 ساعات متواصلة"},
+{t:"العربي عايز ورقة وقلم",d:"متتفرجش على الفيديو وانت نايم، اكتب ورا مس شذى"},
+{t:"الواجب أهم من الفيديو",d:"اللي بيحل كتير هو اللي بيقفل، مش اللي بيتفرج كتير"}
+];
+localStorage.setItem('SHZ_DB',JSON.stringify(DB));
+}
+document.getElementById('tipsList').innerHTML=DB.tips.map(x=>`<div class="tip"><b style="color:#7A5C51">${x.t}</b><br><small style="color:#A67C6B">${x.d}</small></div>`).join('');
+</script>
+</body></html>

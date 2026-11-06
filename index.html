@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>دخول - قلم شذى</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;800&display=swap" rel="stylesheet">
+<style>*{box-sizing:border-box;margin:0;padding:0;font-family:'Cairo'}body{background:#FFF8F0;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:16px}.card{background:#FFFEFB;border:2px solid #FADDD8;border-radius:24px;padding:24px;width:100%;max-width:360px;text-align:center}input{width:100%;padding:12px;border:2px solid #FCE4D8;border-radius:12px;text-align:center;margin:10px 0}.btn{width:100%;background:#E8919C;color:#fff;border:0;border-radius:12px;padding:12px;font-weight:800}</style></head>
+<body><div class="card"><h2 style="color:#D46A7E">ادخل كودك ✨</h2><p style="color:#A67C6B;font-size:11px">الكود اللي مس شذى ادتهولك</p><input id="code" placeholder="SHZ-XXXX"><button class="btn" onclick="login()">دخول 🚀</button><div id="msg" style="font-size:11px;color:#E8919C;margin-top:8px"></div></div>
+<script>
+let DB=JSON.parse(localStorage.getItem('SHZ_DB')||'{"codes":[{"name":"أحمد","grade":"الصف الثالث الثانوي","code":"SHZ-2026"},{"name":"سارة","grade":"الصف الأول الثانوي","code":"SHZ-LOVE"}],"courses":[]}');
+localStorage.setItem('SHZ_DB',JSON.stringify(DB));
+function login(){let c=code.value.trim().toUpperCase();let f=DB.codes.find(x=>x.code===c);if(!f){msg.textContent='الكود غلط';return}localStorage.setItem('SHZ_CURRENT',JSON.stringify(f));location.href='dashboard.html'}
+</script></body></html>
